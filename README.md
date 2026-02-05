@@ -1,3 +1,5 @@
+![GitHub Downloads](https://img.shields.io/github/downloads/HavocsCall/foundryvtt-pf2e-merchant-maker/latest/total)
+
 # PF2E Merchant Maker
 
 This FoundryVTT module allows for the quick creation of merchants for the Pathfinder 2nd Edition system.
@@ -11,6 +13,10 @@ Adds a button to the bottom of the Actors Tab.
 The button opens a window form with include and exclude criteria. The criteria come from the equipment compendium from the Pathfinder 2nd Edition FoundryVTT system.
 
 ![PF2E Merchant Maker Window](images/Pf2EMerchantMakerWindow.png)
+
+## Premade Shops
+There are some premade shops in a compendium. Currently, there are:
+- Runes
 
 ## Installation
 
