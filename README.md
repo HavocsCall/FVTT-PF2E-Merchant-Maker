@@ -14,6 +14,10 @@ The button opens a window form with include and exclude criteria. The criteria c
 
 ![PF2E Merchant Maker Window](images/Pf2EMerchantMakerWindow.png)
 
+An advanced options menu for random and set amounts.
+
+![Advanced Options](images/AdvancedOptions.png)
+
 ## Premade Shops
 There are some premade shops in a compendium. Currently, there are:
 - Runes
