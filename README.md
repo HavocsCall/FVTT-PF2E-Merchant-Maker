@@ -19,15 +19,19 @@ An advanced options menu for random and set amounts.
 ![Advanced Options](images/AdvancedOptions.png)
 
 ## Premade Shops
+
 There are some premade shops in a compendium. Currently, there are:
+
 - Runes
 
 ## Installation
 
 For now, use this link in the install module field in FoundryVTT.
+
 ```
 https://github.com/HavocsCall/FVTT-PF2E-Merchant-Maker/releases/latest/download/module.json
 ```
+
 I will submit this to be added to Foundry's Module list if there is interest.
 
 ## How to Use
@@ -68,6 +72,7 @@ Feel free to create an issue on [GitHub](https://github.com/HavocsCall/FVTT-PF2E
 - Add an option for value ranges, like levels 0-5 instead of "0, 1, 2, 3, 4, 5." I'm not positive about this since there is the possibility that someone may want non-consecutive levels. That would require both the range and the selectable options. That might get confusing.
 
 ## Special Thanks
+
 - Mecha Maya - For the [Item Piles: PF2e](https://github.com/mechamaya/itempiles-pf2e) module that make merchants better.
 - Idle - For the [PF2e Toolbelt](https://github.com/reonZ/pf2e-toolbelt) module that has the Better Merchant to make merchants better.
 

@@ -36,7 +36,7 @@ jobs:
           version: ${{steps.get-version.outputs.version-without-v}}
           manifest: https://github.com/${{github.repository}}/releases/latest/download/module.json
           download: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/module.zip
-      
+
       # Build the compendiums
       - name: Install Dependencies
         run: npm ci
@@ -47,7 +47,15 @@ jobs:
 
       # Create a folder containing all the module stuff and zip it for the release
       - name: Create zip
-        run: zip -r9 ./module.zip module.json images/ lang/ packs/ src/scripts/ src/styles/ src/templates/ README.md LICENSE CHANGELOG.md
+        run: zip -r9 ./module.zip \
+          module.json             \
+          images/                 \
+          lang/                   \
+          packs/                  \
+          src/                    \
+          README.md               \
+          LICENSE                 \
+          CHANGELOG.md
 
       # Add the module.json and the zip file to the release
       - name: Update release with files
@@ -59,4 +67,4 @@ jobs:
           omitDraftDuringUpdate: true
           omitPrereleaseDuringUpdate: true
           name: ${{steps.get-version.outputs.version-without-v}}
-          artifacts: './module.json, ./module.zip'
+          artifacts: "./module.json, ./module.zip"

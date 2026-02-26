@@ -1,0 +1,108 @@
+import { MODULE_ID, MODULE_STATE, SETTINGS } from "./merchant-maker.constants.js";
+import { generateMerchantFromFormData } from "./merchant-maker.generator.js";
+
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
+
+export class Pf2eMerchantMakerApp extends HandlebarsApplicationMixin(ApplicationV2) {
+	get title() {
+		return game.i18n.localize("pf2eMerchantMaker.name");
+	}
+
+	static DEFAULT_OPTIONS = {
+		tag: "form",
+		form: {
+			handler: this.handleFormSubmit,
+			submitOnChange: false,
+			closeOnSubmit: false,
+		},
+		id: `${MODULE_ID}-window`,
+		width: "auto",
+		height: "auto",
+		resizable: true,
+	};
+
+	static PARTS = {
+		tabs: { template: "templates/generic/tab-navigation.hbs" },
+		merchantMaker: { template: `modules/${MODULE_ID}/src/templates/pf2eMerchantMaker.hbs` },
+		advancedOptions: { template: `modules/${MODULE_ID}/src/templates/advancedOptions.hbs` },
+		footer: { template: "templates/generic/form-footer.hbs" },
+	};
+
+	static TABS = {
+		primary: {
+			tabs: [
+				{ id: "merchantMaker", label: "pf2eMerchantMaker.name" },
+				{ id: "advancedOptions", label: "pf2eMerchantMaker.window.advancedOptions" },
+			],
+			initial: "merchantMaker",
+		},
+	};
+
+	async _preparePartContext(partId, context) {
+		switch (partId) {
+			case "merchantMaker":
+			case "advancedOptions":
+				context.tab = context.tabs[partId];
+				break;
+			default:
+		}
+		return context;
+	}
+
+	async _prepareContext(_options) {
+		return {
+			tabs: this._prepareTabs("primary"),
+			buttons: [
+				{
+					type: "submit",
+					label: "pf2eMerchantMaker.window.submit",
+					icon: "fa-solid fa-hand-holding-dollar",
+				},
+				{
+					type: "reset",
+					label: "pf2eMerchantMaker.window.reset",
+					icon: "fa-solid fa-arrow-rotate-left",
+				},
+			],
+			criteria: MODULE_STATE.criteria,
+		};
+	}
+
+	static async handleFormSubmit(_event, _form, formData) {
+		await generateMerchantFromFormData(formData.object);
+	}
+}
+
+export function registerActorDirectoryButton() {
+	Hooks.on("renderActorDirectory", (tab, html) => {
+		const footer = html.querySelector(".directory-footer.action-buttons");
+		if (!footer) return;
+		if (footer.querySelector(`#${MODULE_ID}`)) return;
+
+		footer.insertAdjacentHTML(
+			"afterbegin",
+			`
+        <button id="${MODULE_ID}">
+            <i class="fa-solid fa-hand-holding-dollar"></i>
+            <span style="font-weight: 400; font-family: var(--font-sans);">${game.i18n.localize("pf2eMerchantMaker.name")}</span>
+        </button>
+        `
+		);
+
+		footer.querySelector(`#${MODULE_ID}`).onclick = () => {
+			if (
+				!Array.isArray(MODULE_STATE.items) ||
+				MODULE_STATE.items.length === 0 ||
+				!MODULE_STATE.criteria ||
+				Object.keys(MODULE_STATE.criteria).length === 0
+			) {
+				ui.notifications?.error(game.i18n.localize("pf2eMerchantMaker.error.notReady"));
+				return;
+			}
+
+			new Pf2eMerchantMakerApp({
+				form: { closeOnSubmit: game.settings.get(MODULE_ID, SETTINGS.CLOSE_ON_SUBMIT) ?? false },
+			}).render(true);
+		};
+	});
+}

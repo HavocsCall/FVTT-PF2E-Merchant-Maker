@@ -7,9 +7,31 @@
 	},
 	"scripts": {
 		"extract": "node build/extract.mjs",
-		"compile": "node build/compile.mjs"
+		"compile": "node build/compile.mjs",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"format": "prettier . --write",
+		"format:check": "prettier . --check",
+		"prepare": "husky",
+		"check": "npm run format:check && npm run lint",
+		"fix": "npm run format && npm run lint:fix",
+		"lint-staged": "lint-staged"
+	},
+	"lint-staged": {
+		"*.{js,mjs,json,md,yml,yaml,css,hbs}": [
+			"prettier --write"
+		],
+		"*.{js,mjs}": [
+			"eslint --fix"
+		]
 	},
 	"devDependencies": {
-		"@foundryvtt/foundryvtt-cli": "^3.0.0"
+		"@foundryvtt/foundryvtt-cli": "^3.0.0",
+		"eslint": "^9.22.0",
+		"eslint-config-prettier": "^10.1.1",
+		"globals": "^16.0.0",
+		"husky": "^9.1.7",
+		"lint-staged": "^15.5.0",
+		"prettier": "^3.5.3"
 	}
 }
